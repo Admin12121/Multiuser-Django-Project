@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block header %}
+{% load static %}
+ <title>Saler portle</title>
+ <link rel="stylesheet" href="{%static 'css/salers.css'%}">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+{% endblock header %}
+{% block content %}
+<main class="main">
+	<div class="responsive-wrapper">
+		<div class="main-header">
+			<h1>Sales Dashoard</h1>
+			<div class="search">
+				<input type="text" placeholder="Search" />
+				<button type="submit">
+					<i class="ph-magnifying-glass-bold"></i>
+				</button>
+			</div>
+		</div>
+		<div class="horizontal-tabs">
+			<a href="#">Customers</a>
+			<a href="#" class="active">Products</a>
+			<a href="#">Available</a>
+			<a href="#">Packed</a>
+			<a href="#">Pending Paymets</a>
+			<a href="#">Billing</a>
+			<a href="#">Email</a>
+			<a href="#">Notifications</a>
+		</div>
+	</div>
+</main>
+{% endblock content %}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    {% block header %}
+    {% endblock header %}
+</head>
+<body>
+  {% for message in messages %}
+  <div class="notification {% if message.tags %}{{ message.tags }}{% endif %}">
+    <div>
+      <span class="material-symbols-outlined icon">
+        {% if message.tags == 'error' %}
+          error_outline
+        {% elif message.tags == 'success' %}
+          done
+        {% endif %}
+      </span>
+      <div>
+        <h3>{{ message.tags|capfirst }}</h3>
+        <p>{{ message }} 🎉.</p>
+      </div>
+      <span class="material-symbols-outlined close-btn">
+        close
+      </span>
+    </div>
+  </div>
+  {% endfor %}
+    <div class="app-container">
+        <section class="navigation">
+          <a href="{% url 'home' %}" class="app-link">Travelers</a>
+          <div class="navigation-links">
+            <a href="#" class="nav-link ">Destinations</a>
+            <a href="#" class="nav-link active">Hotels</a>
+            <a href="#" class="nav-link">Car Rent</a>
+            {% if is_default_user %}
+                <a href="{% url 'change_role' %}" class="nav-link">Become a Seller</a>
+            {% else %}
+                <a href="{% url 'salers' %}" class="nav-link">Manage Sales</a>
+            {% endif %}
+        
+        
+          </div>
+          <div class="nav-right-side">
+            <button class="mode-switch">
+             <svg class="sun" fill="none" stroke="#fbb046" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-sun" viewBox="0 0 24 24"><defs/><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="moon" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-moon" viewBox="0 0 24 24"><defs/><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+           </button>
+           {% if user.is_authenticated %}
+            <button class="profile-btn">
+              <span>
+                {% if user.is_superuser %}
+                  {{ request.user.name }}
+                  <p class="admin">👑</p>
+                {% else %}
+                  {{ request.user.name }}
+                {% endif %}
+              </span>
+
+            <img src="https://images.unsplash.com/photo-1492633397843-92adffad3d1c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2167&q=80" alt="pp">
+          </button>
+            <a href="{% url 'signout' %}" class="logout_button">
+              <button class="profile-btn logout">Logout</button>
+            </a>
+            {% else %}
+            <a href="{% url 'signin' %}" class="logout_button">
+              <button class="profile-btn logout">Login</button>
+            </a>
+            <a href="{% url 'signup' %}" class="logout_button">
+              <button class="profile-btn logout">Signin</button>
+            </a>
+          {% endif %}
+          </div>  
+        </section>
+        {% block content %}
+        
+        {% endblock content %}
+    </div>
+    <script src="{% static 'js/script.js'%}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var notifications = document.querySelectorAll('.notification');
+        notifications.forEach(function(notification) {
+          setTimeout(function() {
+            notification.classList.add('slide-out');
+            setTimeout(function() {
+              notification.remove(); 
+            }, 500); 
+          }, 2000);
+        });
+      });
+    </script>
+    
+</body>
+</html>
